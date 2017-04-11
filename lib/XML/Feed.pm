@@ -75,13 +75,14 @@ sub parse {
     return $class->error("Unsupported format $format: $@") if $@;
     bless $feed, $format_class;
     $feed->init_string(\$xml) or return $class->error($feed->errstr);
-    $feed;
+
+    return $feed;
 }
 
 sub identify_format {
     my $feed   = shift;
     my($xml)   = @_;
-	foreach my $class (@formatters) {
+	foreach my $class ( @formatters ) {
 		my ($name) = ($class =~ m!([^:]+)$!);
 		# TODO ugly
 		my $tmp = $$xml;
