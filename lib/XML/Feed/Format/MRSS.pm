@@ -10,7 +10,7 @@ use XML::FeedPP;
 
 sub format { 'MRSS' }
 
-sub identify {
+sub is_mrss_feed {
     my $class   = shift;
     my $xml     = shift;
 

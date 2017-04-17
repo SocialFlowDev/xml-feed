@@ -83,6 +83,9 @@ sub identify_format {
     my $feed   = shift;
     my($xml)   = @_;
 	foreach my $class ( @formatters ) {
+        if ( $class eq 'XML::Feed::Format::MRSS' ) {
+            next
+        }
 		my ($name) = ($class =~ m!([^:]+)$!);
 		# TODO ugly
 		my $tmp = $$xml;
