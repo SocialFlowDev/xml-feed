@@ -20,15 +20,12 @@ sub is_mrss_feed {
     }
 
     foreach my $item ( $feed->get_item() ) {
-        if ( ! $item->{'media:content'}  )  {
-            $is_mrss = 0;
-            if ( ! $item->{'media:content'}->{'-url'} ) {
-               return 0;
-            }
+        if ( $item->{'media:content'} && $item->{'media:content'}->{'-url'}  )  {
+            return 1;
         }
     }
 
-    return 1;
+    return 0;
 }
 
 
