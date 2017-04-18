@@ -15,21 +15,20 @@ sub is_mrss_feed {
     my $xml     = shift;
 
     my $feed = XML::FeedPP->new( $$xml );
-    my $is_mrss = 1;
     if ( index($$xml, "xmlns:media=\"http://search.yahoo.com/mrss/\"" ) < 0 ) {
-        $is_mrss = 0;
+        return 0;
     }
 
     foreach my $item ( $feed->get_item() ) {
         if ( ! $item->{'media:content'}  )  {
             $is_mrss = 0;
             if ( ! $item->{'media:content'}->{'-url'} ) {
-                $is_mrss = 0;
+               return 0;
             }
         }
     }
 
-    return ($is_mrss);
+    return 1;
 }
 
 
