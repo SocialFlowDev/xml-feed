@@ -30,6 +30,8 @@ sub init_empty {
     $feed->{rss}->add_module(prefix => "dcterms", uri => 'http://purl.org/dc/terms/');    
     $feed->{rss}->add_module(prefix => "atom", uri => 'http://www.w3.org/2005/Atom');
     $feed->{rss}->add_module(prefix => "geo", uri => 'http://www.w3.org/2003/01/geo/wgs84_pos#');
+    $feed->{rss}->add_module(prefix => "media", uri => 'http://search.yahoo.com/mrss');
+
     $feed;
 }
 
