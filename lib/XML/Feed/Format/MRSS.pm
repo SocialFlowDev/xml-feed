@@ -28,10 +28,11 @@ sub is_mrss_feed {
                 return 1;
             }
         }
-        return 0;
     } catch {
         return 0;
-    }
+    };
+
+    return 0;
 }
 
 
