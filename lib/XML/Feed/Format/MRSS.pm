@@ -1,4 +1,5 @@
 package XML::Feed::Format::MRSS;
+
 use strict;
 use warnings;
 
