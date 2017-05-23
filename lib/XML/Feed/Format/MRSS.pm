@@ -9,24 +9,34 @@ use XML::Feed::Entry::Format::MRSS;
 
 use XML::FeedPP;
 
+use Try::Tiny;
+
 sub format { 'MRSS' }
 
 sub is_mrss_feed {
     my $class   = shift;
     my $xml     = shift;
 
-    my $feed = XML::FeedPP->new( $$xml );
-    if ( index($$xml, "xmlns:media=\"http://search.yahoo.com/mrss/\"" ) < 0 ) {
-        return 0;
-    }
+    my $is_mrss;
 
-    foreach my $item ( $feed->get_item() ) {
-        if ( $item->{'media:content'} && $item->{'media:content'}->{'-url'}  )  {
-            return 1;
+    try {
+        my $feed = XML::FeedPP->new( $$xml );
+        if ( index($$xml, "xmlns:media=\"http://search.yahoo.com/mrss/\"" ) < 0 ) {
+            $is_mrss = 0;
         }
-    }
+        foreach my $item ( $feed->get_item() ) {
+            if ( $item->{'media:content'}
+                 && ref $item->{'media:content'} eq 'HASH'
+                 && $item->{'media:content'}->{'-url'}  )  {
+                 $is_mrss = 1;
+                 last
+            }
+        }
+    } catch {
+        $is_mrss = 0;
+    };
 
-    return 0;
+    return $is_mrss;
 }
 
 
