@@ -17,7 +17,7 @@ sub is_mrss_feed {
     my $class   = shift;
     my $xml     = shift;
 
-    my $is_mrss;
+    my $is_mrss = 0;
 
     try {
         my $feed = XML::FeedPP->new( $$xml );
