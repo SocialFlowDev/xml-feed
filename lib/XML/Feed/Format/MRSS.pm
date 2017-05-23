@@ -16,23 +16,26 @@ sub is_mrss_feed {
     my $class   = shift;
     my $xml     = shift;
 
+    my $is_mrss;
+
     try {
         my $feed = XML::FeedPP->new( $$xml );
         if ( index($$xml, "xmlns:media=\"http://search.yahoo.com/mrss/\"" ) < 0 ) {
-            return 0;
+            $is_mrss = 0;
         }
         foreach my $item ( $feed->get_item() ) {
             if ( $item->{'media:content'}
                  && ref $item->{'media:content'} eq 'HASH'
                  && $item->{'media:content'}->{'-url'}  )  {
-                return 1;
+                 $is_mrss = 1;
+                 last
             }
         }
     } catch {
-        return 0;
+        $is_mrss = 0;
     };
 
-    return 0;
+    return $is_mrss;
 }
 
 
