@@ -44,13 +44,12 @@ sub init_string {
     my $feed = shift;
     my($str) = @_;
     #Create XML::Feed object using both XML::Feed->parse and equivalent method in FeedPP
-    #Channel fields populated by XML::Feed output.
     #Item fields populated by FeedPP output ( handles media:* fields )
 
     my $feedpp_output = XML::FeedPP->new( $$str );
     $feed->init_empty;
 
-    # Title is the only thing toplevel that i can think of -joe
+    # Title is the only toplevel element that we need, add here if there are others -joe
     $feed->title($feedpp_output->title);
 
 
