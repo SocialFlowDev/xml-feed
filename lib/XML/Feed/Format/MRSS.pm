@@ -47,28 +47,20 @@ sub init_string {
     #Channel fields populated by XML::Feed output.
     #Item fields populated by FeedPP output ( handles media:* fields )
 
-    $feed->init_empty;
-    my $feed_copy = $feed;
-    my $parsed_feed = $feed_copy->{rss}->parse( $$str );
     my $feedpp_output = XML::FeedPP->new( $$str );
     $feed->init_empty;
 
-    foreach my $key ( keys $parsed_feed->{channel}   ) { 
-        $feed->{rss}->channel( $key => $parsed_feed->{channel}->{ $key } ); 
-    }
+    # Title is the only thing toplevel that i can think of -joe
+    $feed->title($feedpp_output->title);
 
-    my $parsed_feed_items = $parsed_feed->{items};
-    foreach my $feedpp_item (  $feedpp_output->get_item() ) {
+
+    for my $feedpp_item ($feedpp_output->get_item() ) {
         my $guid = $feedpp_item->{guid}->{'#text' };
         $feedpp_item->{guid} = $guid; # replace guid hash created by FeedPP with just guid string
-        foreach my $parsed_feed_item ( @$parsed_feed_items ) {
-            if ( $parsed_feed_item->{'guid'} eq $guid ) {
-                $feed->{rss}->add_item( %$feedpp_item );
-            }
-        }
-    };
-
+        $feed->{rss}->add_item(%$feedpp_item);
+    }
     return $feed
+
 }
 
 
