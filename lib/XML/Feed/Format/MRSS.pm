@@ -54,7 +54,13 @@ sub init_string {
 
 
     for my $feedpp_item ($feedpp_output->get_item() ) {
-        my $guid = $feedpp_item->{guid}->{'#text' };
+        my $guid;
+        if (ref($feedpp_item->{guid}) eq 'HASH') {
+            $guid = $feedpp_item->{guid}->{'#text' };
+        } else {
+            $guid = $feedpp_item->{guid};
+        }
+
         $feedpp_item->{guid} = $guid; # replace guid hash created by FeedPP with just guid string
         $feed->{rss}->add_item(%$feedpp_item);
     }
